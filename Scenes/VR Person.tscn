@@ -1,0 +1,69 @@
+[gd_scene load_steps=12 format=3 uid="uid://tnb5q00n3epn"]
+
+[ext_resource type="Script" path="res://Scripts/Person.gd" id="1_3wegp"]
+[ext_resource type="PackedScene" uid="uid://b4kad2kuba1yn" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn" id="2_8jj2h"]
+[ext_resource type="Script" path="res://Scripts/FilterController.gd" id="2_y3iqo"]
+[ext_resource type="Shader" path="res://Assets/Shaders/ColorBlind.gdshader" id="3_8ahxs"]
+[ext_resource type="PackedScene" uid="uid://l2n30mpbkdyw" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_hand_low.tscn" id="3_h4lw1"]
+[ext_resource type="PackedScene" uid="uid://bot3jtl2p4qh5" path="res://Assets/valve_hand_models/left_hand.glb" id="4_fkhwf"]
+[ext_resource type="PackedScene" uid="uid://c4a6tkqy4w2jl" path="res://Assets/valve_hand_models/right_hand.glb" id="5_4fsam"]
+[ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="6_m51xv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pvgc2"]
+render_priority = 0
+shader = ExtResource("3_8ahxs")
+shader_parameter/left_eye = 0
+shader_parameter/right_eye = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2wc8l"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_2kywo"]
+material = SubResource("StandardMaterial3D_2wc8l")
+size = Vector2(5, 5)
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_3wegp")
+
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
+current = true
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+script = ExtResource("2_y3iqo")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/XRCamera3D"]
+material_override = SubResource("ShaderMaterial_pvgc2")
+cast_shadow = 0
+mesh = SubResource("QuadMesh_2kywo")
+
+[node name="XRController3D" type="XRController3D" parent="XROrigin3D"]
+tracker = &"left_hand"
+
+[node name="LeftHand" parent="XROrigin3D/XRController3D" instance=ExtResource("2_8jj2h")]
+
+[node name="FunctionPickup" parent="XROrigin3D/XRController3D" instance=ExtResource("6_m51xv")]
+grab_distance = 30.0
+
+[node name="XRController3D2" type="XRController3D" parent="XROrigin3D"]
+tracker = &"right_hand"
+
+[node name="RightHand" parent="XROrigin3D/XRController3D2" instance=ExtResource("3_h4lw1")]
+
+[node name="FunctionPickup" parent="XROrigin3D/XRController3D2" instance=ExtResource("6_m51xv")]
+grab_distance = 30.0
+
+[node name="OpenXRHand" type="OpenXRHand" parent="."]
+visible = false
+hand_skeleton = NodePath("left_hand/Armature_001/Skeleton3D")
+
+[node name="left_hand" parent="OpenXRHand" instance=ExtResource("4_fkhwf")]
+
+[node name="OpenXRHand2" type="OpenXRHand" parent="."]
+visible = false
+hand = 1
+hand_skeleton = NodePath("right_hand/Armature/Skeleton3D")
+
+[node name="right_hand" parent="OpenXRHand2" instance=ExtResource("5_4fsam")]
+
+[editable path="OpenXRHand/left_hand"]
+[editable path="OpenXRHand2/right_hand"]

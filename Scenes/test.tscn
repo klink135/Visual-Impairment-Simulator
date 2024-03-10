@@ -1,0 +1,57 @@
+[gd_scene load_steps=8 format=3 uid="uid://ybn0qgl7svch"]
+
+[ext_resource type="PackedScene" uid="uid://tnb5q00n3epn" path="res://Scenes/VR Person.tscn" id="1_4gphv"]
+[ext_resource type="PackedScene" uid="uid://bfm82uhsgb4uy" path="res://Scenes/Grabable Box.tscn" id="2_0ducf"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_31jd3"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vo60q"]
+albedo_color = Color(0, 1, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_othec"]
+albedo_color = Color(0, 0, 1, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_txjub"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_qqx2l"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Node3D" parent="." instance=ExtResource("1_4gphv")]
+
+[node name="RigidBody3D" parent="." instance=ExtResource("2_0ducf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.57739, 0.285903, -1.30567)
+
+[node name="MeshInstance3D" parent="RigidBody3D" index="0"]
+gi_mode = 0
+surface_material_override/0 = SubResource("StandardMaterial3D_31jd3")
+
+[node name="RigidBody3D2" parent="." instance=ExtResource("2_0ducf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.991475, 0.93487, -0.325799)
+
+[node name="MeshInstance3D" parent="RigidBody3D2" index="0"]
+gi_mode = 0
+surface_material_override/0 = SubResource("StandardMaterial3D_vo60q")
+
+[node name="RigidBody3D3" parent="." instance=ExtResource("2_0ducf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.687112, -1.30276)
+
+[node name="MeshInstance3D" parent="RigidBody3D3" index="0"]
+gi_mode = 0
+surface_material_override/0 = SubResource("StandardMaterial3D_othec")
+
+[node name="Floor" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0)
+gi_mode = 0
+mesh = SubResource("PlaneMesh_txjub")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0)
+shape = SubResource("WorldBoundaryShape3D_qqx2l")
+
+[editable path="RigidBody3D"]
+[editable path="RigidBody3D2"]
+[editable path="RigidBody3D3"]

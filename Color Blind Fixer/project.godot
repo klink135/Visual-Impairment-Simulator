@@ -1,0 +1,25 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "CanvasLayer",
+"class": "Colorblindness",
+"language": "GDScript",
+"path": "res://addons/paulloz.colorblindness/colorblindness.gd"
+} ]
+_global_script_class_icons={
+"Colorblindness": "res://addons/paulloz.colorblindness/colorblindness.svg"
+}
+
+[application]
+
+config/name="Color Blind Fixer"
+config/icon="res://icon.png"
+config/description="Enter an interesting project description here!"
